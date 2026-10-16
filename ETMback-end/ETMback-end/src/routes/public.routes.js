@@ -1,0 +1,14 @@
+import { Router } from "express";
+import * as controller from "../controllers/public.controller.js";
+import { createReport, getOwnReport } from "../controllers/violationReport.controller.js";
+import { authenticate, authorize } from "../middlewares/auth.js";
+import { asyncHandler } from "../utils/asyncHandler.js";
+const router = Router();
+router.get("/games", asyncHandler(controller.games));
+router.get("/public/matches/:id",asyncHandler(controller.matchDetail));
+router.get("/standings", asyncHandler(controller.standings));
+router.get("/news", asyncHandler(controller.news));
+router.get("/news/:slug", asyncHandler(controller.article));
+router.post("/reports", authenticate, authorize("ClubManager"), asyncHandler(createReport));
+router.get("/reports/:id",authenticate,authorize("ClubManager"),asyncHandler(getOwnReport));
+export default router;
