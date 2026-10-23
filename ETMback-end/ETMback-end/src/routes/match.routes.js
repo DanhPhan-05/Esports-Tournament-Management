@@ -1,0 +1,16 @@
+import { Router } from "express";
+import * as controller from "../controllers/match.controller.js";
+import { authenticate, authorize } from "../middlewares/auth.js";
+import { asyncHandler } from "../utils/asyncHandler.js";
+const router = Router(); router.use(authenticate, authorize("TournamentOrganizer", "Administrator"));
+router.get("/:id", asyncHandler(controller.getMatchDetail));
+router.patch("/:id/schedule", asyncHandler(controller.scheduleMatch));
+router.put("/:id/result", asyncHandler(controller.recordResult));
+router.put("/:id/schedule", asyncHandler(controller.scheduleMatch));
+router.get("/:id/results", asyncHandler(controller.getResult));
+router.post("/:id/results", asyncHandler(controller.createResult));
+router.put("/:id/results", asyncHandler(controller.updateResult));
+router.post("/:id/results/confirm", asyncHandler(controller.confirmResult));
+router.post("/:id/forfeit", asyncHandler(controller.forfeitMatch));
+router.post("/:id/postpone", asyncHandler(controller.postponeMatch));
+export default router;
