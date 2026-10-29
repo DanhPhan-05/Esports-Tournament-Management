@@ -1,5 +1,6 @@
 node_modules/
-Docs/
+Docs/*
+!Docs/gitwork.md
 .env
 dist/
 build/
