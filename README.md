@@ -13,7 +13,7 @@ Monorepo gồm React + Vite web và Express + MongoDB API. Epic 0 dựng nền t
 cd ETMback-end
 npm ci
 Copy-Item .env.example .env
-# Cập nhật MONGODB_URI, JWT_SECRET, COOKIE_SECRET trong .env
+# Cập nhật MONGO_URI, JWT_SECRET, COOKIE_SECRET trong .env
 npm run dev
 ```
 
@@ -38,7 +38,7 @@ npm test
 npm run build
 ```
 
-Postman collection nằm tại `ETMback-end/postman/ETM.postman_collection.json`. Hiện collection kiểm tra health và CSRF của Epic 0; chuỗi auth → đăng ký giải → roster → bracket → kết quả → khiếu nại sẽ được bổ sung cùng các API nghiệp vụ tương ứng.
+Postman collection nằm tại `ETMback-end/postman/ETM.postman_collection.json`. Hiện collection kiểm tra health và CSRF của Epic 0; chuỗi auth → đăng ký giải → roster → bracket → kết quả → khiếu nại sẽ được bổ sung cùng các API nghiệp vụ tương ứng. CI hiện chạy test, build và smoke check cho health/CSRF; chưa chạy Postman collection cho luồng nghiệp vụ chưa có API.
 
 ## Cấu trúc
 
@@ -52,6 +52,8 @@ Postman collection nằm tại `ETMback-end/postman/ETM.postman_collection.json`
 - `ETMback-end/ecosystem.config.cjs`: cấu hình PM2
 
 Frontend dùng cookie HttpOnly cho phiên đăng nhập. Epic Authentication sẽ cung cấp `/api/auth/login`, `/api/auth/logout` và `/api/auth/me`. Google OAuth cần `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET` và callback URL; upload ảnh cần Firebase service account và bucket. Chưa bật các dịch vụ đó khi thiếu cấu hình.
+
+CSRF dùng `csrf-csrf` với cookie phiên được ký và token ràng buộc theo phiên. Backlog ghi `csurf`, nhưng gói đó đã được npm đánh dấu ngừng bảo trì. Khi Epic 1 triển khai đăng nhập/đăng xuất, cần đổi phiên và cấp lại CSRF token sau khi quyền thay đổi.
 
 ## Deploy demo
 

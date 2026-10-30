@@ -1,9 +1,11 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import jwt from 'jsonwebtoken';
-import app from '../src/app.js';
 import { requireAuth } from '../src/middlewares/auth.js';
 import { authorize } from '../src/middlewares/authorize.js';
+
+process.env.COOKIE_SECRET = 'test-cookie-secret-long-enough';
+const { default: app } = await import('../src/app.js');
 
 test('health and CSRF endpoints return expected shape', async () => {
   const server = app.listen(0);
@@ -14,14 +16,19 @@ test('health and CSRF endpoints return expected shape', async () => {
     assert.deepEqual(await health.json(), { status: 'ok' });
     const csrf = await fetch(`${base}/api/csrf`);
     assert.equal(csrf.status, 200);
-    assert.match((await csrf.json()).csrfToken, /^[a-f0-9]{64}$/);
-    assert.match(csrf.headers.get('set-cookie'), /csrf_token=/);
+    const token = (await csrf.json()).csrfToken;
+    assert.ok(token.length > 30);
+    const cookies = csrf.headers.getSetCookie().map((value) => value.split(';')[0]).join('; ');
+    assert.match(cookies, /csrf_session=/);
+    assert.match(cookies, /etm\.csrf=/);
     const missing = await fetch(`${base}/api/missing`);
     assert.equal(missing.status, 404);
     assert.equal((await missing.json()).error.code, 'NOT_FOUND');
     const unsafe = await fetch(`${base}/api/missing`, { method: 'POST' });
     assert.equal(unsafe.status, 403);
     assert.equal((await unsafe.json()).error.code, 'INVALID_CSRF');
+    const valid = await fetch(`${base}/api/missing`, { method: 'POST', headers: { cookie: cookies, 'x-csrf-token': token } });
+    assert.equal(valid.status, 404);
   } finally { server.close(); }
 });
 
