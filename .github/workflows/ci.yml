@@ -59,7 +59,7 @@ jobs:
         run: npm start > api.log 2>&1 &
         working-directory: ETMback-end
         env:
-          MONGO_URI: mongodb://127.0.0.1:27017/etm_ci
+          MONGODB_URI: mongodb://127.0.0.1:27017/etm_ci
           JWT_SECRET: ci-jwt-secret-only
           COOKIE_SECRET: ci-cookie-secret-only
           CLIENT_ORIGIN: http://localhost:5173

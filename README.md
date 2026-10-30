@@ -13,7 +13,7 @@ Monorepo gồm React + Vite web và Express + MongoDB API. Epic 0 dựng nền t
 cd ETMback-end
 npm ci
 Copy-Item .env.example .env
-# Cập nhật MONGO_URI, JWT_SECRET, COOKIE_SECRET trong .env
+# Cập nhật MONGODB_URI, JWT_SECRET, COOKIE_SECRET trong .env
 npm run dev
 ```
 
