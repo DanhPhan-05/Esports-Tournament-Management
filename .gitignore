@@ -8,3 +8,5 @@ build/
 .vscode/
 .agent/
 postman/
+!ETMback-end/postman/
+.worktrees/

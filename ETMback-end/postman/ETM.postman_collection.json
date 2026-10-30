@@ -1,0 +1,28 @@
+{
+  "info": {
+    "name": "ETM API",
+    "description": "Epic 0 infrastructure smoke checks. Business flow requests are added with their owning Epics when those endpoints exist.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Infrastructure",
+      "item": [
+        {
+          "name": "Health",
+          "event": [{ "listen": "test", "script": { "exec": ["pm.test('API is healthy', function () {", "  pm.response.to.have.status(200);", "  pm.expect(pm.response.json().status).to.eql('ok');", "});"], "type": "text/javascript" } }],
+          "request": { "method": "GET", "url": "{{baseUrl}}/health" }
+        },
+        {
+          "name": "CSRF token",
+          "event": [{ "listen": "test", "script": { "exec": ["pm.test('CSRF token is issued', function () {", "  pm.response.to.have.status(200);", "  pm.expect(pm.response.json().csrfToken).to.be.a('string');", "  pm.collectionVariables.set('csrfToken', pm.response.json().csrfToken);", "});"], "type": "text/javascript" } }],
+          "request": { "method": "GET", "url": "{{baseUrl}}/csrf" }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:5000/api" },
+    { "key": "csrfToken", "value": "" }
+  ]
+}
