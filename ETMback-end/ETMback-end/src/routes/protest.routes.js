@@ -1,0 +1,15 @@
+import { Router } from "express";
+import * as controller from "../controllers/protest.controller.js";
+import { authenticate, authorize } from "../middlewares/auth.js";
+import { asyncHandler } from "../utils/asyncHandler.js";
+const router = Router(); router.use(authenticate);
+router.get("/my", authorize("ClubManager"), asyncHandler(controller.listProtests));
+router.get("/eligible",authorize("ClubManager"),asyncHandler(controller.eligibleMatches));
+router.get("/", authorize("TournamentOrganizer", "Administrator"), asyncHandler(controller.listProtests));
+router.post("/", authorize("ClubManager"), asyncHandler(controller.createProtest));
+router.get("/:id", authorize("ClubManager", "TournamentOrganizer", "Administrator"), asyncHandler(controller.getProtest));
+router.put("/:id", authorize("ClubManager"), asyncHandler(controller.updateProtest));
+router.delete("/:id/withdraw", authorize("ClubManager"), asyncHandler(controller.withdrawProtest));
+router.put("/:id/request-more", authorize("TournamentOrganizer", "Administrator"), asyncHandler(controller.requestEvidence));
+router.put("/:id/resolve", authorize("TournamentOrganizer", "Administrator"), asyncHandler(controller.resolveProtest));
+export default router;

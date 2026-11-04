@@ -1,0 +1,766 @@
+.pickem-experience {
+  --pe-text: #edf4f6;
+  --pe-dim: #9eafb9;
+  --pe-line: #34434c;
+  color: var(--pe-text);
+  background: #090e14;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid #23313d;
+  margin: 0 0 28px;
+}
+.pickem-experience a {
+  color: inherit;
+  text-decoration: none;
+}
+.pickem-experience button {
+  font: inherit;
+}
+.pe-hero {
+  min-height: 235px;
+  padding: 38px 38px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background: radial-gradient(ellipse at 90% 20%, #08cbd53b, transparent 60%), #071720;
+}
+.pe-hero:after {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  width: 600px;
+  height: 300px;
+  right: -160px;
+  top: -65px;
+  border: 42px solid #00bbc33d;
+  transform: rotate(-35deg);
+  box-shadow: 0 0 0 35px #02c4d00d;
+}
+.pe-kicker {
+  color: #d2ac65;
+  letter-spacing: 1.3px;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+.pe-hero h1 {
+  font-size: clamp(44px, 6vw, 76px);
+  line-height: 1.1;
+  letter-spacing: -4px;
+  margin: 12px 0;
+  color: #fff;
+  font-weight: 800;
+}
+.pe-hero h1 span {
+  color: #17d5dc;
+}
+.pe-hero p {
+  color: #b7cad2;
+  font-size: 13px;
+  margin: 14px 0 0;
+}
+.pe-hero-trophy {
+  color: #4ce1e5;
+  margin: 0 36px;
+  flex-shrink: 0;
+}
+.pe-navigation {
+  display: flex;
+  gap: 28px;
+  padding: 20px 32px;
+  border-bottom: 1px solid #2b3640;
+  align-items: center;
+  font-size: 12px;
+}
+.pe-navigation > span {
+  color: #61e1e4;
+  font-weight: 700;
+}
+.pe-navigation a:last-child {
+  margin-left: auto;
+}
+.pe-navigation a,
+.pe-detail-tabs a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.pe-season {
+  padding: 26px 30px 0;
+}
+.pe-season:last-of-type {
+  padding-bottom: 22px;
+}
+.pe-season-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin: 0 0 16px;
+  padding: 12px 16px;
+  background: #172027;
+  border-radius: 5px;
+}
+.pe-season-heading h2 {
+  margin: 0;
+  font-size: 18px;
+  color: #fff;
+}
+.pe-season-heading > span {
+  color: #d2ac65;
+  font-size: 10px;
+  border: 1px solid #5d4c30;
+  border-radius: 20px;
+  padding: 3px 10px;
+}
+.pe-event-card {
+  display: block;
+  position: relative;
+  min-height: 205px;
+  margin-bottom: 22px;
+  padding: 18px 22px;
+  border: 1px solid #37434d;
+  border-radius: 7px;
+  background: radial-gradient(ellipse at 70% 0, #263678, transparent), #101722;
+  background-position: center;
+  background-size: cover;
+  transition:
+    border-color 0.2s,
+    transform 0.2s;
+}
+.pe-event-card:hover {
+  border-color: #7cdbe0;
+  transform: translateY(-2px);
+}
+.pe-event-card.open {
+  border-color: #2caaa9;
+  box-shadow: inset 3px 0 #21d0cc;
+}
+.pe-event-card.locked {
+  background-blend-mode: luminosity;
+}
+.pe-event-top,
+.pe-event-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+.pe-event-top > svg {
+  color: #a7bcc5;
+}
+.pe-state {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 10px;
+  font-weight: 700;
+  border: 1px solid #475663;
+  border-radius: 20px;
+  padding: 3px 8px;
+  color: #a8b8c2;
+  background: #15202bd9;
+}
+.pe-state.open {
+  color: #71ece1;
+  border-color: #30776f;
+}
+.pe-state.upcoming {
+  color: #efd494;
+  border-color: #8a7446;
+}
+.pe-live-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #2cdbba;
+  box-shadow: 0 0 0 3px #2cdbba1c;
+}
+.pe-event-bottom {
+  margin-top: 30px;
+}
+.pe-event-bottom h3 {
+  color: white;
+  margin: 5px 0 4px;
+  font-size: 19px;
+  line-height: 1.4;
+}
+.pe-event-bottom p {
+  margin: 0;
+  font-size: 11px;
+  color: #b0c1cf;
+}
+.pe-event-bottom .pe-game {
+  color: #80cbd1;
+  font-size: 10px;
+}
+.pe-stats {
+  display: flex;
+  flex-shrink: 0;
+  background: #0b101bdd;
+  border: 1px solid #3d4854;
+  border-radius: 4px;
+}
+.pe-stats > div {
+  padding: 12px 17px;
+  min-width: 100px;
+  text-align: center;
+}
+.pe-stats > div + div {
+  border-left: 1px solid #3d4854;
+}
+.pe-stats strong {
+  display: block;
+  color: white;
+  font-size: 17px;
+}
+.pe-stats small {
+  font-size: 8px;
+  color: #a9b8c3;
+  display: block;
+  margin-top: 4px;
+  letter-spacing: 0.5px;
+}
+.pe-event-cta {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 6px;
+  color: #b7e6e8;
+  margin-top: 15px;
+  font-size: 10px;
+}
+.pe-guide {
+  border-top: 1px solid #29333e;
+  margin: 18px 30px 24px;
+  padding-top: 17px;
+  font-size: 12px;
+  color: #aec0ce;
+}
+.pe-guide summary {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #d6e4eb;
+}
+.pe-guide li {
+  margin: 10px 0;
+}
+.pe-notice {
+  padding: 0 30px;
+  font-size: 12px;
+  color: #d2ac65;
+}
+.pe-detail-header {
+  padding: 24px 30px;
+  background: radial-gradient(ellipse at 70% 0, #122f53, transparent 70%), #101520;
+}
+.pe-back {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: #a1bfcc;
+  cursor: pointer;
+  margin-bottom: 15px;
+  font-size: 11px !important;
+}
+.pe-detail-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+.pe-detail-title h1 {
+  color: white;
+  font-size: 29px;
+  margin: 8px 0 0;
+}
+.pe-detail-header > a {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 13px;
+  font-size: 11px;
+  color: #9db8c9;
+}
+.pe-detail-tabs {
+  display: flex;
+  gap: 22px;
+  align-items: center;
+  padding: 0 30px;
+  border-bottom: 1px solid #303d47;
+}
+.pe-detail-tabs button {
+  padding: 16px 0;
+  color: #91a5b3;
+  background: none;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 12px;
+}
+.pe-detail-tabs button[aria-selected='true'] {
+  color: #e7f7f8;
+  border-bottom-color: #39c9cb;
+}
+.pe-detail-tabs a {
+  margin-left: auto;
+  font-size: 11px;
+  color: #b8c9d5;
+}
+.pe-tournament-status {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 22px 30px 8px;
+  gap: 12px;
+}
+.pe-tournament-status > div {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.pe-tournament-status > div > span:not(.pe-state) {
+  font-size: 10px;
+  color: #acbfcb;
+}
+.pe-tournament-status > strong {
+  font-size: 12px;
+  color: #ecd39b;
+  white-space: nowrap;
+}
+.pickem-experience .countdown {
+  background: transparent;
+  border: 0;
+  color: #b2c7d6;
+  font-size: 11px;
+}
+.pe-board-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px 26px;
+}
+.pe-legend {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  font-size: 9px;
+  color: #b4c4d0;
+}
+.pe-legend > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.pe-legend > span:first-child {
+  color: #48ceaa;
+}
+.pe-legend > span:nth-child(2) {
+  color: #f28795;
+}
+.pe-line-key:before {
+  content: '';
+  width: 20px;
+  border-top: 1px solid #719ba8;
+}
+.pe-line-key.loser:before {
+  border-top-style: dashed;
+  border-color: #bb9868;
+}
+.pe-zoom {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+.pe-zoom button {
+  display: flex;
+  align-items: center;
+  padding: 6px 7px;
+  border: 1px solid #334451;
+  border-radius: 4px;
+  background: #14212c;
+  color: #d5e4ed;
+  cursor: pointer;
+  font-size: 10px;
+}
+.pe-zoom button:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+.pe-zoom > span {
+  font-size: 10px;
+  width: 33px;
+  text-align: center;
+}
+.pe-bracket-scroll {
+  overflow: auto;
+  max-height: 720px;
+  padding: 14px 10px 20px;
+  scrollbar-color: #425766 #101a24;
+  scrollbar-width: thin;
+  border-top: 1px solid #1d2a34;
+  border-bottom: 1px solid #1d2a34;
+  background:
+    radial-gradient(#2e405026 0.8px, transparent 0.8px) 0 0 / 16px 16px,
+    #090e14;
+}
+.pe-bracket-scroll:focus-visible {
+  outline: 2px solid #43b9c2;
+  outline-offset: -2px;
+}
+.pe-bracket-canvas {
+  position: relative;
+  transform-origin: top left;
+}
+.pe-branch-band {
+  position: absolute;
+  border-radius: 7px;
+  background: #15202b40;
+  border: 1px solid #26333b80;
+  pointer-events: none;
+}
+.pe-branch-band h2 {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #8ca8bb;
+  margin: 10px 16px;
+}
+.pe-connections {
+  position: absolute;
+  inset: 0;
+  overflow: visible;
+  pointer-events: none;
+}
+.pe-connections .pe-edge {
+  stroke: #668997;
+  stroke-width: 1.25;
+  fill: none;
+  opacity: 0.75;
+}
+.pe-connections .loser {
+  stroke: #b09368;
+  stroke-dasharray: 5 5;
+  opacity: 0.6;
+}
+.pe-connections .conditional {
+  stroke-dasharray: 3 5;
+}
+.pe-round-heading {
+  position: absolute;
+  padding: 10px 8px;
+  min-height: 43px;
+  text-align: center;
+  background: #1c2935;
+  border: 1px solid #334453;
+  border-radius: 4px;
+}
+.pe-round-heading strong {
+  display: block;
+  color: #e0eaf1;
+  font-size: 10px;
+}
+.pe-round-heading small {
+  color: #a8bcc9;
+  display: block;
+  font-size: 8px;
+  margin-top: 2px;
+}
+.pe-match-node {
+  position: absolute;
+  background: #111b25;
+  border: 1px solid #3c5061;
+  border-radius: 4px;
+  box-shadow: 0 3px 8px #0004;
+  overflow: hidden;
+}
+.pe-match-node.correct {
+  border-color: #3e9c7f;
+}
+.pe-match-node.wrong {
+  border-color: #82505e;
+}
+.pe-match-node.conditional {
+  border-style: dashed;
+}
+.pe-match-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 24px;
+  padding: 0 9px;
+  font-size: 8px;
+  color: #8fa8b9;
+  background: #1b2935;
+}
+.pe-match-meta strong {
+  color: #cad9e3;
+}
+.pe-verdict {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  color: #ddca9e;
+}
+.correct .pe-verdict {
+  color: #72dfbb;
+}
+.wrong .pe-verdict {
+  color: #ef889a;
+}
+.pe-team-row {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  width: 100%;
+  height: 35px;
+  border: 0;
+  border-top: 1px solid #293b48;
+  border-left: 3px solid transparent;
+  text-align: left;
+  color: #b6c7d2;
+  background: #101b26;
+  padding: 0 8px;
+  font-size: 11px !important;
+  cursor: pointer;
+}
+.pe-team-row:disabled {
+  opacity: 1;
+  cursor: default;
+}
+.pe-team-row:not(:disabled):hover {
+  background: #193c49;
+  color: white;
+}
+.pe-team-row.selected {
+  background: #123c42;
+  border-left-color: #48d6c8;
+  color: #efffff;
+}
+.pe-team-row > .avatar {
+  height: 23px;
+  width: 23px;
+  flex-shrink: 0;
+  border-radius: 3px;
+  font-size: 9px;
+  background: #c8d8e618;
+  color: #c3e9f2;
+}
+.pe-team-row > .avatar img {
+  object-fit: contain;
+  padding: 2px;
+}
+.pe-team-row > span:not(.avatar):not(.pe-empty-logo) {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.pe-team-row > b {
+  margin-left: auto;
+  min-width: 20px;
+  text-align: center;
+  font-size: 13px;
+  color: inherit;
+}
+.pe-empty-logo {
+  display: inline-flex;
+  width: 23px;
+  height: 23px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #33495a;
+  border-radius: 50%;
+  color: #71889a;
+  flex-shrink: 0;
+}
+.pe-node-footer {
+  width: 100%;
+  height: 26px;
+  padding: 0 9px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 0;
+  border-top: 1px solid #293b48;
+  background: #17232e;
+  color: #a4bac8;
+  font-size: 8px !important;
+  cursor: pointer;
+}
+.pe-node-footer:hover {
+  color: #70dfde;
+  background: #1a313d;
+}
+.pe-board-hint {
+  padding: 0 30px;
+  font-size: 10px;
+  color: #95aaba;
+  margin: 15px 0;
+}
+.pe-team-catalog {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+  margin-top: 20px;
+}
+.pe-team-catalog > div {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid #304252;
+  padding: 12px;
+  border-radius: 5px;
+}
+.pe-team-catalog .avatar {
+  background: #c9dbe717;
+}
+.pe-team-catalog img {
+  object-fit: contain;
+}
+.pe-team-catalog small {
+  display: block;
+  color: #7297ad;
+}
+@media (max-width: 700px) {
+  .pe-hero {
+    padding: 28px 20px;
+    min-height: 190px;
+  }
+  .pe-hero-trophy {
+    display: none;
+  }
+  .pe-hero h1 {
+    font-size: 55px;
+  }
+  .pe-navigation {
+    padding: 16px;
+    gap: 15px;
+    font-size: 10px;
+  }
+  .pe-navigation a:last-child {
+    margin-left: 0;
+  }
+  .pe-season {
+    padding: 20px 15px 0;
+  }
+  .pe-season-heading {
+    padding: 10px;
+  }
+  .pe-season-heading > span {
+    display: none;
+  }
+  .pe-event-card {
+    padding: 15px;
+  }
+  .pe-event-bottom {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 18px;
+    margin-top: 25px;
+  }
+  .pe-event-bottom h3 {
+    font-size: 17px;
+  }
+  .pe-stats > div {
+    padding: 8px 12px;
+    min-width: 90px;
+  }
+  .pe-stats strong {
+    font-size: 14px;
+  }
+  .pe-detail-header {
+    padding: 20px;
+  }
+  .pe-detail-title {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 15px;
+  }
+  .pe-detail-title h1 {
+    font-size: 24px;
+  }
+  .pe-detail-tabs {
+    padding: 0 15px;
+    gap: 16px;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+  .pe-detail-tabs button {
+    font-size: 11px;
+  }
+  .pe-detail-tabs a {
+    font-size: 9px;
+  }
+  .pe-tournament-status {
+    padding: 18px 16px 8px;
+    align-items: flex-start;
+    flex-direction: column;
+  }
+  .pe-board-toolbar {
+    padding: 14px;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .pe-legend {
+    gap: 10px;
+  }
+  .pe-guide {
+    margin: 18px 16px;
+  }
+  .pe-board-hint {
+    padding: 0 16px;
+  }
+  .pe-bracket-scroll {
+    max-height: 600px;
+  }
+}
+
+.pe-result-detail > p {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.pe-result-detail strong {
+  margin-left: auto;
+  font-size: 22px;
+}
+
+.public-bracket-viewer {
+  margin-bottom: 0;
+}
+.public-bracket-viewer .pe-board-toolbar h2 {
+  margin: 0 0 3px;
+  font-size: 17px;
+  color: #edf4f6;
+}
+.pe-public-subtitle {
+  color: #9eafb9;
+  font-size: 10px;
+}
+.pe-public-legend {
+  padding: 0 26px 16px;
+}
+.public-bracket-viewer .pe-team-row {
+  cursor: default;
+}
+.public-bracket-viewer .pe-team-row:not(.selected):hover {
+  background: #101b26;
+  color: #b6c7d2;
+}
+.public-bracket-viewer .pe-node-footer {
+  color: #a4bac8;
+}
