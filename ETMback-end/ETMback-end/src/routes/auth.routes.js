@@ -1,0 +1,16 @@
+import { Router } from "express";
+import * as controller from "../controllers/auth.controller.js";
+import { asyncHandler } from "../utils/asyncHandler.js";
+import passport from "passport";
+const router = Router();
+router.post("/register", asyncHandler(controller.register));
+router.post("/verify-email", asyncHandler(controller.verifyEmail));
+router.post("/login", asyncHandler(controller.login));
+router.post("/refresh", asyncHandler(controller.refresh));
+router.post("/logout", asyncHandler(controller.logout));
+router.post("/forgot-password", asyncHandler(controller.forgotPassword));
+router.post("/reset-password", asyncHandler(controller.resetPassword));
+router.post("/activate", asyncHandler(controller.activateAccount));
+router.get("/google", passport.authenticate("google", { scope: ["profile", "email"], session: false }));
+router.get("/google/callback", passport.authenticate("google", { session: false, failureRedirect: "/login?oauth=failed" }), asyncHandler(controller.googleCallback));
+export default router;
