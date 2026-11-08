@@ -1,0 +1,17 @@
+import { Router } from "express";
+import * as applicationController from "../controllers/tournamentApplication.controller.js";
+import * as rosterController from "../controllers/roster.controller.js";
+import * as rosterChangeController from "../controllers/rosterChangeRequest.controller.js";
+import { authenticate, authorize } from "../middlewares/auth.js";
+import { asyncHandler } from "../utils/asyncHandler.js";
+const router = Router(); router.use(authenticate);
+router.get("/mine", authorize("ClubManager"), asyncHandler(applicationController.myApplications));
+router.post("/", authorize("ClubManager"), asyncHandler(applicationController.createApplication));
+router.get("/tournaments/:tournamentId", authorize("TournamentOrganizer", "Administrator"), asyncHandler(applicationController.tournamentApplications));
+router.post("/:id/submit", authorize("ClubManager"), asyncHandler(applicationController.submitApplication));
+router.patch("/:id/review", authorize("TournamentOrganizer", "Administrator"), asyncHandler(applicationController.reviewApplication));
+router.put("/rosters/:id", authorize("ClubManager"), asyncHandler(rosterController.updateRoster));
+router.get("/rosters/:id", authorize("ClubManager", "TournamentOrganizer", "Administrator"), asyncHandler(rosterController.getRoster));
+router.post("/rosters/:id/change-requests", authorize("ClubManager"), asyncHandler(rosterChangeController.createRosterChange));
+router.patch("/roster-change-requests/:id/review", authorize("TournamentOrganizer", "Administrator"), asyncHandler(rosterChangeController.reviewRosterChange));
+export default router;
