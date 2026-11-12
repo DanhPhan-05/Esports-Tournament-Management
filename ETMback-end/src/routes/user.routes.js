@@ -1,0 +1,14 @@
+import { Router } from "express";
+import * as controller from "../controllers/user.controller.js";
+import * as notificationController from "../controllers/notification.controller.js";
+import { authenticate } from "../middlewares/auth.js";
+import { asyncHandler } from "../utils/asyncHandler.js";
+const router = Router(); router.use(authenticate);
+router.get("/me", asyncHandler(controller.me));
+router.patch("/me", asyncHandler(controller.updateMe));
+router.put("/me", asyncHandler(controller.updateMe));
+router.post("/me/change-password", asyncHandler(controller.changePassword));
+router.put("/me/password", asyncHandler(controller.changePassword));
+router.get("/notifications", asyncHandler(notificationController.listNotifications));
+router.patch("/notifications/:id/read", asyncHandler(notificationController.markNotificationRead));
+export default router;
