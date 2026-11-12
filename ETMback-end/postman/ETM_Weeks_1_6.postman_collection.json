@@ -1,0 +1,39 @@
+{
+  "info": { "name": "ETM API - Weeks 1-6", "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json" },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:3000/api" },
+    { "key": "accessToken", "value": "" },
+    { "key": "clubId", "value": "" },
+    { "key": "tournamentId", "value": "" },
+    { "key": "matchId", "value": "a00000000000000000000002" },
+    { "key": "predictionId", "value": "" }
+  ],
+  "auth": { "type": "bearer", "bearer": [{ "key": "token", "value": "{{accessToken}}", "type": "string" }] },
+  "item": [
+    { "name": "Health", "request": { "auth": { "type": "noauth" }, "method": "GET", "url": "{{baseUrl}}/health" } },
+    { "name": "Auth", "item": [
+      { "name": "Register", "request": { "auth": { "type": "noauth" }, "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\n  \"email\": \"customer@example.com\",\n  \"password\": \"Password@123\",\n  \"fullName\": \"Example User\"\n}" }, "url": "{{baseUrl}}/auth/register" } },
+      { "name": "Login as administrator", "request": { "auth": { "type": "noauth" }, "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\n  \"email\": \"admin@etm.local\",\n  \"password\": \"Admin@12345\"\n}" }, "url": "{{baseUrl}}/auth/login" } },
+      { "name": "Login as customer", "request": { "auth": { "type": "noauth" }, "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\n  \"email\": \"customer@etm.local\",\n  \"password\": \"Customer@12345\"\n}" }, "url": "{{baseUrl}}/auth/login" } }
+    ] },
+    { "name": "Clubs", "item": [
+      { "name": "My clubs", "request": { "method": "GET", "url": "{{baseUrl}}/clubs" } },
+      { "name": "Create member", "request": { "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\n  \"citizenId\": \"001234567890\",\n  \"fullName\": \"Player One\",\n  \"inGameName\": \"P1\",\n  \"activeFrom\": \"2026-01-01\"\n}" }, "url": "{{baseUrl}}/clubs/{{clubId}}/members" } }
+    ] },
+    { "name": "Tournaments", "item": [
+      { "name": "Public list", "request": { "auth": { "type": "noauth" }, "method": "GET", "url": "{{baseUrl}}/tournaments" } },
+      { "name": "Standings", "request": { "auth": { "type": "noauth" }, "method": "GET", "url": "{{baseUrl}}/tournaments/{{tournamentId}}/standings" } }
+    ] },
+    { "name": "Predictions", "item": [
+      { "name": "Open events", "request": { "method": "GET", "url": "{{baseUrl}}/predictions/events" } },
+      { "name": "My predictions", "request": { "method": "GET", "url": "{{baseUrl}}/predictions/me" } },
+      { "name": "Leaderboard", "request": { "method": "GET", "url": "{{baseUrl}}/predictions/leaderboard" } },
+      { "name": "Create prediction", "request": { "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\n  \"matchId\": \"{{matchId}}\",\n  \"predictedWinnerTeamId\": \"400000000000000000000001\",\n  \"predictedTeam1Score\": 2,\n  \"predictedTeam2Score\": 1\n}" }, "url": "{{baseUrl}}/predictions" } },
+      { "name": "Update prediction", "request": { "method": "PUT", "header": [{ "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\n  \"predictedWinnerTeamId\": \"400000000000000000000001\",\n  \"predictedTeam1Score\": 2,\n  \"predictedTeam2Score\": 0\n}" }, "url": "{{baseUrl}}/predictions/{{predictionId}}" } }
+    ] },
+    { "name": "Admin", "item": [
+      { "name": "Games", "request": { "method": "GET", "url": "{{baseUrl}}/admin/games" } },
+      { "name": "Audit records", "request": { "method": "GET", "url": "{{baseUrl}}/admin/audit-records" } }
+    ] }
+  ]
+}

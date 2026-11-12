@@ -1,20 +1,31 @@
-import multer from 'multer';
+import { ApiError } from "../utils/ApiError.js";
 
-export class HttpError extends Error {
-  constructor(status, message, code = 'REQUEST_ERROR') {
-    super(message);
-    this.status = status;
-    this.code = code;
-  }
-}
-
-export function notFound(_req, _res, next) {
-  next(new HttpError(404, 'Route not found', 'NOT_FOUND'));
+export function notFound(req, _res, next) {
+  next(new ApiError(404, `Route not found: ${req.method} ${req.originalUrl}`));
 }
 
 export function errorHandler(error, _req, res, _next) {
-  const uploadStatus = error instanceof multer.MulterError ? (error.code === 'LIMIT_FILE_SIZE' ? 413 : 400) : undefined;
-  const status = uploadStatus || (Number.isInteger(error.status) && error.status >= 400 && error.status < 600 ? error.status : 500);
-  if (status === 500) console.error(error);
-  res.status(status).json({ error: { code: error.code || 'INTERNAL_ERROR', message: status === 500 ? 'Internal server error' : error.message } });
+  let statusCode = error.statusCode || 500;
+  let message = error.message || "Internal server error";
+
+  if (error.name === "ValidationError") {
+    statusCode = 422;
+    message = "Validation failed";
+  }
+  if (error.code === 11000) {
+    statusCode = 409;
+    message = "Duplicate resource";
+  }
+  if (error.name === "CastError") {
+    statusCode = 400;
+    message = "Invalid identifier";
+  }
+  if (error.name === "MulterError") { statusCode = 422; message = "Upload exceeds permitted size or file count"; }
+  if (error.name === "VersionError") { statusCode = 409; message = "Resource changed concurrently; reload and retry"; }
+
+  res.status(statusCode).json({
+    success: false,
+    error: { message, details: error.details || error.errors },
+    ...(process.env.NODE_ENV === "development" ? { stack: error.stack } : {})
+  });
 }

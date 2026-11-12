@@ -1,29 +1,17 @@
-import { randomBytes } from 'node:crypto';
-import { doubleCsrf } from 'csrf-csrf';
-import { HttpError } from './errorHandler.js';
+import crypto from "node:crypto";
 
-const SESSION_COOKIE = 'csrf_session';
-const SAFE_METHODS = new Set(['GET', 'HEAD', 'OPTIONS']);
-const cookieOptions = { httpOnly: true, sameSite: 'lax', secure: process.env.NODE_ENV === 'production', path: '/' };
-const { generateCsrfToken, doubleCsrfProtection } = doubleCsrf({
-  getSecret: () => process.env.COOKIE_SECRET,
-  getSessionIdentifier: (req) => req.signedCookies?.[SESSION_COOKIE] || '',
-  cookieName: process.env.NODE_ENV === 'production' ? '__Host-etm.csrf' : 'etm.csrf',
-  cookieOptions,
-  getCsrfTokenFromRequest: (req) => req.get('x-csrf-token'),
-});
-
-export function issueCsrfToken(req, res) {
-  if (!req.signedCookies?.[SESSION_COOKIE]) {
-    const id = randomBytes(32).toString('hex');
-    res.cookie(SESSION_COOKIE, id, { ...cookieOptions, signed: true });
-    req.signedCookies[SESSION_COOKIE] = id;
-  }
-  res.json({ csrfToken: generateCsrfToken(req, res, { overwrite: true }) });
+export function issueCsrfToken(_req, res) {
+  const token = crypto.randomBytes(32).toString("hex");
+  res.cookie("csrfToken", token, { httpOnly: true, sameSite: "strict", secure: process.env.NODE_ENV === "production" });
+  res.json({ success: true, data: { csrfToken: token } });
 }
 
-export function requireCsrf(req, res, next) {
-  if (SAFE_METHODS.has(req.method)) return next();
-  if (!req.signedCookies?.[SESSION_COOKIE]) return next(new HttpError(403, 'Invalid CSRF token', 'INVALID_CSRF'));
-  return doubleCsrfProtection(req, res, (error) => next(error ? new HttpError(403, 'Invalid CSRF token', 'INVALID_CSRF') : undefined));
+export function csrfProtection(req, res, next) {
+  if (process.env.CSRF_ENABLED !== "true" && !req.cookies?.accessToken && !req.cookies?.refreshToken) return next();
+  if (["GET", "HEAD", "OPTIONS"].includes(req.method)) return next();
+  const cookie = req.cookies?.csrfToken; const header = req.get("x-csrf-token");
+  if (!cookie || !header || Buffer.byteLength(cookie) !== Buffer.byteLength(header) || !crypto.timingSafeEqual(Buffer.from(cookie), Buffer.from(header))) {
+    return res.status(403).json({ success: false, error: { message: "Invalid CSRF token" } });
+  }
+  next();
 }

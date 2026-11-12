@@ -1,16 +1,37 @@
-import jwt from 'jsonwebtoken';
-import { HttpError } from './errorHandler.js';
+import { AuthSession, User } from "../models/index.js";
+import { getPolicy, sessionExpired } from "../services/securityPolicy.service.js";
+import { assertAccountNotBanned } from "../services/ban.service.js";
+import { ApiError } from "../utils/ApiError.js";
+import { asyncHandler } from "../utils/asyncHandler.js";
+import { verifyAccessToken } from "../utils/tokens.js";
 
-export function requireAuth(req, _res, next) {
-  const bearer = req.get('authorization')?.match(/^Bearer (.+)$/i)?.[1];
-  const token = bearer || req.cookies?.access_token;
-  if (!token) return next(new HttpError(401, 'Authentication required', 'UNAUTHENTICATED'));
+export const authenticate = asyncHandler(async (req, _res, next) => {
+  const bearer = req.headers.authorization?.startsWith("Bearer ")
+    ? req.headers.authorization.slice(7)
+    : null;
+  const token = bearer || req.cookies?.accessToken;
+  if (!token) throw new ApiError(401, "Authentication required");
+
+  let payload;
   try {
-    const payload = jwt.verify(token, process.env.JWT_SECRET, { algorithms: ['HS256'] });
-    if (!payload.sub) throw new Error('Missing subject');
-    req.user = { id: payload.sub, role: payload.role };
-    return next();
+    payload = verifyAccessToken(token);
   } catch {
-    return next(new HttpError(401, 'Invalid or expired session', 'UNAUTHENTICATED'));
+    throw new ApiError(401, "Invalid or expired access token");
   }
+
+  const user = await User.findById(payload.sub).select("-passwordHash");
+  if (!user || user.status !== "Active") throw new ApiError(401, "Account is not active");
+  const session = payload.sid ? await AuthSession.findOne({ _id: payload.sid, userId: user._id }) : null;
+  if (!session || sessionExpired(session, await getPolicy("Session"))) throw new ApiError(401, "Session expired; sign in again");
+  await assertAccountNotBanned(user._id);
+  session.lastUsedAt = new Date(); await session.save();
+  req.user = user;
+  next();
+});
+
+export function authorize(...roles) {
+  return (req, _res, next) => {
+    if (!req.user || !roles.includes(req.user.systemRole)) return next(new ApiError(403, "Forbidden"));
+    next();
+  };
 }
